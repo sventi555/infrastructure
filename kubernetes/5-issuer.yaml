@@ -1,0 +1,24 @@
+apiVersion: cert-manager.io/v1alpha2
+kind: ClusterIssuer
+metadata:
+  name: letsencrypt
+  namespace: cert-manager
+spec:
+  acme:
+    server: https://acme-v02.api.letsencrypt.org/directory
+    email: sventi555@gmail.com
+    privateKeySecretRef:
+      name: letsencrypt
+    solvers:
+    - dns01:
+        digitalocean:
+          tokenSecretRef:
+            key: access-token
+            name: digitalocean-dns
+      selector:
+        dnsZones:
+        - sventi.com
+        - bretonlikethecrackers.com
+    - http01:
+        ingress:
+          class: nginx
